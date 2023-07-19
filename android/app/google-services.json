@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "799047879733",
+    "project_id": "bitattendance-74ff4",
+    "storage_bucket": "bitattendance-74ff4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:799047879733:android:2836f14ce616b9cc34357c",
+        "android_client_info": {
+          "package_name": "com.example.bitattendance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "799047879733-18s37ojg9e53811k9rpddhl2f1mm44g8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bitattendance",
+            "certificate_hash": "226e0875f55881046496363922ce68aab662dd8f"
+          }
+        },
+        {
+          "client_id": "799047879733-tq88unp8mtb9sr3ar2j8cc79l17d58ju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBb2MMoTSNEdpVvwUGLap8ZkbcHBXetrNI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "799047879733-tq88unp8mtb9sr3ar2j8cc79l17d58ju.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
