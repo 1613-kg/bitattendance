@@ -1,3 +1,4 @@
+import 'package:bitattendance/screens/homeScreen.dart';
 import 'package:bitattendance/screens/splashScreen.dart';
 import 'package:bitattendance/services/auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             fontFamily: 'Montserrat'),
         debugShowCheckedModeBanner: false,
-        home: splashScreen(),
+        home: homeScreen(),
       ),
     );
   }

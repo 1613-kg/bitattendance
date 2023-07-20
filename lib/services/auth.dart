@@ -91,4 +91,8 @@ class AuthProvider extends ChangeNotifier {
     String imageDwnUrl = await snapshot.ref.getDownloadURL();
     return imageDwnUrl;
   }
+
+  void signOut() async {
+    await _firebaseAuth.signOut();
+  }
 }

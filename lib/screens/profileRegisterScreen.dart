@@ -25,6 +25,7 @@ class _profileRegisterScreenState extends State<profileRegisterScreen> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _departmentController = TextEditingController();
   String profilePic = "";
+  bool isLoading = false;
   final formKey = GlobalKey<FormState>();
 
   void pickImage(ImageSource src, BuildContext context) async {
@@ -98,6 +99,9 @@ class _profileRegisterScreenState extends State<profileRegisterScreen> {
 
   onContinue(BuildContext context) async {
     if (formKey.currentState!.validate()) {
+      setState(() {
+        isLoading = true;
+      });
       await DatabaseServices(uid: FirebaseAuth.instance.currentUser!.uid)
           .saveUserData(
               _firstNameController.text.trim(),
@@ -105,6 +109,9 @@ class _profileRegisterScreenState extends State<profileRegisterScreen> {
               _emailController.text.trim(),
               _departmentController.text.trim(),
               profilePic);
+      setState(() {
+        isLoading = false;
+      });
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => homeScreen()));
     }

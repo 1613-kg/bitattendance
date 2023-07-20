@@ -1,0 +1,130 @@
+import 'package:bitattendance/services/database_services.dart';
+import 'package:bitattendance/widgets/loading.dart';
+import 'package:bitattendance/widgets/myProfileInfo.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+
+class myProfile extends StatefulWidget {
+  myProfile({super.key});
+
+  @override
+  State<myProfile> createState() => _myProfileState();
+}
+
+class _myProfileState extends State<myProfile> {
+  Stream? userData;
+
+  getUserData() async {
+    await DatabaseServices(uid: FirebaseAuth.instance.currentUser!.uid)
+        .getUserData()
+        .then((value) {
+      setState(() {
+        userData = value;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          "My Profile",
+          style: TextStyle(
+            fontSize: 25,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
+      ),
+      body: StreamBuilder(
+          stream: userData,
+          builder: (context, AsyncSnapshot snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data != null) {
+                final data = snapshot.data;
+                return SingleChildScrollView(
+                  child: Container(
+                    margin: EdgeInsets.all(10),
+                    child: Column(
+                      children: [
+                        Container(
+                          height: 300,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: Colors.purpleAccent.withOpacity(0.7)),
+                          child: CachedNetworkImage(
+                            height: 250,
+                            width: 250,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => Icon(
+                              Icons.person,
+                              size: 150,
+                            ),
+                            filterQuality: FilterQuality.high,
+                            imageUrl: data['profilePic'],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextButton(
+                            onPressed: () {}, child: Text("Change Profile")),
+                        Divider(
+                          thickness: 2,
+                          indent: 20,
+                          endIndent: 20,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        myProfileInfo(
+                          icon: Icons.person,
+                          title:
+                              "Username : ${data['firstName']} ${data['lastName']}",
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        myProfileInfo(
+                          icon: Icons.email,
+                          title: "Email : ${data['email']}",
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        myProfileInfo(
+                          icon: Icons.category_outlined,
+                          title: "Department : ${data['department']}",
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        myProfileInfo(
+                          icon: Icons.contact_emergency,
+                          title: "Phone number : ${data['phoneNumber']}",
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              } else
+                return Container();
+            } else
+              return loading();
+          }),
+    );
+  }
+}

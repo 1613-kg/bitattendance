@@ -28,4 +28,12 @@ class DatabaseServices extends ChangeNotifier {
       "department": department,
     });
   }
+
+  getUserData() async {
+    return userCollection.doc(uid).snapshots();
+  }
+
+  Future deletingUserData() async {
+    return await userCollection.doc(uid).delete();
+  }
 }
