@@ -9,6 +9,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'loginData.dart';
+
 class AuthProvider extends ChangeNotifier {
   bool _isSignedIn = false;
   bool get isSignedIn => _isSignedIn;
@@ -92,7 +94,50 @@ class AuthProvider extends ChangeNotifier {
     return imageDwnUrl;
   }
 
-  void signOut() async {
-    await _firebaseAuth.signOut();
+  Future<List<String>> uploadEventPictures(List<File> images) async {
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child('eventImages')
+        .child(FirebaseAuth.instance.currentUser!.uid);
+
+    List<String> _imagesUrl = [];
+    for (int i = 0; i < images.length; i++) {
+      UploadTask uploadTask = ref.child(i.toString()).putFile(images[i]);
+      TaskSnapshot snapshot = await uploadTask;
+      String imageDwnUrl = await snapshot.ref.getDownloadURL();
+      _imagesUrl.add(imageDwnUrl);
+    }
+
+    return _imagesUrl;
+  }
+
+  Future<String> updateProPic(File? image, String imageUrl) async {
+    await deleteProPic(imageUrl);
+    return await uploadProPic(image);
+  }
+
+  Future<void> deleteProPic(String imageUrl) async {
+    // Reference photoRef = await FirebaseStorage.instance.refFromURL(imageUrl);
+    // await photoRef.delete();
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child('profilePics')
+        .child(FirebaseAuth.instance.currentUser!.uid);
+
+    await ref.delete();
+  }
+
+  Future signOut() async {
+    try {
+      await LoginData.saveUserLoggedInStatus(false);
+      await LoginData.saveFirstNameSF("");
+      await LoginData.saveLastNameSF("");
+      await LoginData.saveUserDepartmentSF("");
+      await LoginData.saveUserPhoneNumberSF("");
+      await LoginData.saveUserProfilePicSF("");
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      return null;
+    }
   }
 }

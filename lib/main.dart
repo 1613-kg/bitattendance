@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
             useMaterial3: true,
             fontFamily: 'Montserrat'),
         debugShowCheckedModeBanner: false,
-        home: homeScreen(),
+        home: splashScreen(),
       ),
     );
   }

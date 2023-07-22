@@ -5,6 +5,7 @@ import 'package:bitattendance/model/userData.dart';
 import 'package:bitattendance/screens/homeScreen.dart';
 import 'package:bitattendance/services/auth.dart';
 import 'package:bitattendance/services/database_services.dart';
+import 'package:bitattendance/services/loginData.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
@@ -108,7 +109,17 @@ class _profileRegisterScreenState extends State<profileRegisterScreen> {
               _lastNameController.text.trim(),
               _emailController.text.trim(),
               _departmentController.text.trim(),
-              profilePic);
+              profilePic)
+          .then((value) async {
+        await LoginData.saveUserLoggedInStatus(true);
+        await LoginData.saveFirstNameSF(_firstNameController.text.trim());
+        await LoginData.saveLastNameSF(_lastNameController.text.trim());
+        await LoginData.saveUserDepartmentSF(_departmentController.text.trim());
+        await LoginData.saveUserEmailSF(_emailController.text.trim());
+        await LoginData.saveUserPhoneNumberSF(
+            FirebaseAuth.instance.currentUser!.phoneNumber.toString());
+        await LoginData.saveUserProfilePicSF(profilePic);
+      });
       setState(() {
         isLoading = false;
       });
@@ -218,17 +229,13 @@ class _profileRegisterScreenState extends State<profileRegisterScreen> {
                     height: 60,
                     child: ElevatedButton(
                       onPressed: () async {
-                        if (img == null)
-                          showSnackbar(context, Colors.red,
-                              "Please upload your profile picture");
-                        else {
+                        if (img != null) {
                           await ap.uploadProPic(img).then((value) {
                             setState(() {
                               profilePic = value;
                             });
                           });
                         }
-
                         onContinue(context);
                       },
                       child: Text(

@@ -11,11 +11,11 @@ class mySettingsList extends StatelessWidget {
       minLeadingWidth: 35,
       leading: Icon(
         icon,
-        size: 27,
+        size: 25,
       ),
       title: Text(
         title,
-        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w200),
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w200),
       ),
     );
   }

@@ -1,9 +1,16 @@
+import 'dart:io';
+
+import 'package:bitattendance/services/auth.dart';
 import 'package:bitattendance/services/database_services.dart';
+import 'package:bitattendance/services/loginData.dart';
 import 'package:bitattendance/widgets/loading.dart';
 import 'package:bitattendance/widgets/myProfileInfo.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_image/flutter_native_image.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class myProfile extends StatefulWidget {
   myProfile({super.key});
@@ -30,6 +37,97 @@ class _myProfileState extends State<myProfile> {
     // TODO: implement initState
     super.initState();
     getUserData();
+  }
+
+  File? img;
+  void pickImage(ImageSource src, BuildContext context) async {
+    final file = await ImagePicker().pickImage(source: src);
+    File image = File(file!.path);
+    File compressedImage = await customCompressed(image);
+
+    setState(() {
+      img = compressedImage;
+    });
+  }
+
+  Future<File> customCompressed(File imagePath) async {
+    var path = await FlutterNativeImage.compressImage(imagePath.absolute.path,
+        quality: 100, percentage: 10);
+    return path;
+  }
+
+  showDialogOpt(BuildContext context, String imageUrl) {
+    return showDialog(
+        context: context,
+        builder: (context) => SimpleDialog(
+              children: [
+                SimpleDialogOption(
+                  onPressed: () {
+                    pickImage(ImageSource.camera, context);
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.camera),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Camera"),
+                    ],
+                  ),
+                ),
+                SimpleDialogOption(
+                  onPressed: () {
+                    pickImage(ImageSource.gallery, context);
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.album),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Gallery"),
+                    ],
+                  ),
+                ),
+                SimpleDialogOption(
+                  onPressed: () {
+                    setState(() async {
+                      final ap =
+                          Provider.of<AuthProvider>(context, listen: false);
+                      await ap.deleteProPic(imageUrl);
+                      await LoginData.saveUserProfilePicSF("");
+                    });
+
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.remove),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Remove profile"),
+                    ],
+                  ),
+                ),
+                SimpleDialogOption(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    children: [
+                      Icon(Icons.close),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text("Close"),
+                    ],
+                  ),
+                )
+              ],
+            ));
   }
 
   @override
@@ -81,7 +179,13 @@ class _myProfileState extends State<myProfile> {
                           height: 10,
                         ),
                         TextButton(
-                            onPressed: () {}, child: Text("Change Profile")),
+                            onPressed: () async {
+                              showDialogOpt(context, data['profilePic']);
+                              // final ap = Provider.of<AuthProvider>(context,
+                              //     listen: false);
+                              // await ap.updateProPic(img,data['profilePic']);
+                            },
+                            child: Text("Change Profile")),
                         Divider(
                           thickness: 2,
                           indent: 20,

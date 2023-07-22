@@ -6,6 +6,8 @@ import 'package:bitattendance/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../services/loginData.dart';
+
 class splashScreen extends StatefulWidget {
   const splashScreen({super.key});
 
@@ -14,9 +16,27 @@ class splashScreen extends StatefulWidget {
 }
 
 class _splashScreenState extends State<splashScreen> {
+  bool isSigned = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserLoggedInStatus();
+  }
+
+  getUserLoggedInStatus() async {
+    await LoginData.getUserLoggedInStatus().then((value) {
+      if (value != null) {
+        setState(() {
+          isSigned = value;
+        });
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    final checkStatus = Provider.of<AuthProvider>(context, listen: false);
     var h = MediaQuery.sizeOf(context).height;
     var w = MediaQuery.sizeOf(context).width;
     return Scaffold(
@@ -43,7 +63,7 @@ class _splashScreenState extends State<splashScreen> {
           ],
         )),
       ),
-      nextScreen: (checkStatus == true) ? homeScreen() : sliderScreen(),
+      nextScreen: (isSigned == true) ? homeScreen() : sliderScreen(),
     ));
   }
 }

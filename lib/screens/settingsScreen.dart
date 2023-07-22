@@ -1,5 +1,7 @@
+import 'package:bitattendance/screens/aboutUsWebView.dart';
 import 'package:bitattendance/screens/loginScreen.dart';
 import 'package:bitattendance/screens/myProfile.dart';
+import 'package:bitattendance/screens/termsAndCondWebView.dart';
 import 'package:bitattendance/services/auth.dart';
 import 'package:bitattendance/widgets/mySettingsList.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,7 +47,15 @@ class settingsScreen extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                mySettingsList(icon: Icons.info_outline, title: "About us"),
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => (aboutUsWebView())));
+                    },
+                    child: mySettingsList(
+                        icon: Icons.info_outline, title: "About us")),
                 Divider(
                   thickness: 2,
                   indent: 15,
@@ -55,7 +65,15 @@ class settingsScreen extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                mySettingsList(icon: Icons.notes, title: "Terms & Conditions"),
+                InkWell(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => (termsAndCondWebView())));
+                    },
+                    child: mySettingsList(
+                        icon: Icons.notes, title: "Terms & Conditions")),
                 Divider(
                   thickness: 2,
                   indent: 15,

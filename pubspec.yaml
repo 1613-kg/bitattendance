@@ -48,6 +48,12 @@ dependencies:
   flutter_native_image:
   intro_slider: ^4.2.0
   cached_network_image: ^3.2.3
+  webview_flutter: ^4.2.1
+  intl:
+  carousel_slider: ^4.2.1
+  dots_indicator: ^2.1.1
+  transparent_image:
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
