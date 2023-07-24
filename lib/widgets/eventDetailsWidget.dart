@@ -18,12 +18,12 @@ class eventDetailsWidget extends StatelessWidget {
           children: [
             Text(
               "$title: ",
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 15),
             ),
             AutoSizeText(
               content,
               softWrap: true,
-              style: TextStyle(fontSize: 20),
+              style: TextStyle(fontSize: 10),
               maxLines: 6,
               overflow: TextOverflow.ellipsis,
               //overflowReplacement: Text('Sorry String too long'),

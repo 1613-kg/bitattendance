@@ -1,3 +1,4 @@
+import 'package:bitattendance/screens/departmentScreen.dart';
 import 'package:bitattendance/screens/eventScreen.dart';
 import 'package:bitattendance/screens/settingsScreen.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class _homeScreenState extends State<homeScreen> {
   }
 
   var pageList = [
-    Text("Home"),
+    departmentScreen(),
     eventScreen(),
     Text("Dummy"),
     settingsScreen(),
