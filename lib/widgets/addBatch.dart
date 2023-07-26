@@ -26,50 +26,46 @@ class _addBatch extends State<addBatch> {
       child: SingleChildScrollView(
         child: (isLoading)
             ? loading()
-            : Card(
-                //elevation: 5,
-                // child: Container(
-                //     padding: EdgeInsets.all(10),
-                //     child:
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFormField(
-                        onChanged: (val) {
-                          setState(() {
-                            name = val;
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty)
-                            return "Field cannot be empty";
-                          else
-                            return null;
-                        },
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                            hintText: "Enter batch name",
-                            border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.white, width: 2))),
-                      ),
+            : Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      onChanged: (val) {
+                        setState(() {
+                          name = val;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty)
+                          return "Field cannot be empty";
+                        else
+                          return null;
+                      },
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                          hintText: "Enter batch name",
+                          border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 2))),
+                    ),
 
-                      SizedBox(
-                        height: 25,
-                      ),
-                      //(widget.data.id == null)
+                    SizedBox(
+                      height: 25,
+                    ),
+                    //(widget.data.id == null)
 
-                      ElevatedButton(
-                          onPressed: () {
-                            _addBatchData();
-                          },
-                          child: Text("Upload")),
-                    ],
-                  ),
+                    ElevatedButton(
+                        onPressed: () {
+                          _addBatchData();
+                        },
+                        child: Text("Save")),
+                  ],
                 ),
               ),
+
         //),
       ),
     );
@@ -85,7 +81,7 @@ class _addBatch extends State<addBatch> {
               BatchesData(id: '', batch: name, sections: []), widget.deptId)
           .whenComplete(() => isLoading = false);
       Navigator.pop(context);
-      showSnackbar(context, Colors.green, "Data Uploaded Successfully");
+      showSnackbar(context, Colors.green, "Data saved Successfully");
     }
   }
 }

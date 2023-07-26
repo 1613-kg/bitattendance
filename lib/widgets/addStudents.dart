@@ -95,7 +95,7 @@ class _addStudentsState extends State<addStudents> {
                           onPressed: () {
                             _addStudentsData();
                           },
-                          child: Text("Upload")),
+                          child: Text("Save")),
                     ],
                   ),
                 ),
@@ -116,7 +116,7 @@ class _addStudentsState extends State<addStudents> {
               widget.sectionId)
           .whenComplete(() => isLoading = false);
       Navigator.pop(context);
-      showSnackbar(context, Colors.green, "Data Uploaded Successfully");
+      showSnackbar(context, Colors.green, "Data saved Successfully");
     }
   }
 }

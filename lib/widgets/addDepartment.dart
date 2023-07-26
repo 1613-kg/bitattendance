@@ -26,71 +26,68 @@ class _addDepartmentState extends State<addDepartment> {
       child: SingleChildScrollView(
         child: (isLoading)
             ? loading()
-            : Card(
-                //elevation: 5,
-                // child: Container(
-                //     padding: EdgeInsets.all(10),
-                //     child:
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFormField(
-                        onChanged: (val) {
-                          setState(() {
-                            name = val;
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty)
-                            return "Field cannot be empty";
-                          else
-                            return null;
-                        },
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                            hintText: "Enter department name",
-                            border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.white, width: 2))),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      TextFormField(
-                        onChanged: (val) {
-                          setState(() {
-                            head = val;
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty)
-                            return "Field cannot be empty";
-                          else
-                            return null;
-                        },
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                            hintText: "Enter head of department",
-                            border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.white, width: 2))),
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      //(widget.data.id == null)
+            : Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      onChanged: (val) {
+                        setState(() {
+                          name = val;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty)
+                          return "Field cannot be empty";
+                        else
+                          return null;
+                      },
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                          hintText: "Enter department name",
+                          border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 2))),
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    TextFormField(
+                      onChanged: (val) {
+                        setState(() {
+                          head = val;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty)
+                          return "Field cannot be empty";
+                        else
+                          return null;
+                      },
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                          hintText: "Enter head of department",
+                          border: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 2))),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    //(widget.data.id == null)
 
-                      ElevatedButton(
-                          onPressed: () {
-                            _addDepartmentData();
-                          },
-                          child: Text("Upload")),
-                    ],
-                  ),
+                    ElevatedButton(
+                        onPressed: () {
+                          _addDepartmentData();
+                        },
+                        child: Text("Save")),
+                  ],
                 ),
               ),
+
         //),
       ),
     );
@@ -110,7 +107,7 @@ class _addDepartmentState extends State<addDepartment> {
               addedBy: FirebaseAuth.instance.currentUser!.uid))
           .whenComplete(() => isLoading = false);
       Navigator.pop(context);
-      showSnackbar(context, Colors.green, "Data Uploaded Successfully");
+      showSnackbar(context, Colors.green, "Data saved Successfully");
     }
   }
 }

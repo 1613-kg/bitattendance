@@ -1,4 +1,5 @@
 import 'package:bitattendance/model/studentsData.dart';
+import 'package:bitattendance/screens/studentsDescScreen.dart';
 import 'package:flutter/material.dart';
 
 class studentListTile extends StatelessWidget {
@@ -15,6 +16,13 @@ class studentListTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
       ),
       child: ListTile(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) =>
+                      studentsDescScreen(studentsData: studentsData)));
+        },
         title: Text(studentsData.name),
         leading: CircleAvatar(
           child: Text(studentsData.name[0]),

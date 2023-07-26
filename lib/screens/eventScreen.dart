@@ -42,11 +42,12 @@ class _eventScreenState extends State<eventScreen> {
         title: Text(
           "Events",
           style: TextStyle(
-            fontSize: 25,
+            fontSize: 20,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
       ),
       floatingActionButton: FloatingActionButton(

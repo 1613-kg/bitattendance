@@ -138,11 +138,12 @@ class _myProfileState extends State<myProfile> {
         title: Text(
           "My Profile",
           style: TextStyle(
-            fontSize: 25,
+            fontSize: 20,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
+        centerTitle: true,
         backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
       ),
       body: StreamBuilder(

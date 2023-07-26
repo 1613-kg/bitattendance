@@ -1,6 +1,7 @@
 import 'package:bitattendance/model/departmentData.dart';
 import 'package:bitattendance/services/database_services.dart';
 import 'package:bitattendance/widgets/departmentListTile.dart';
+import 'package:bitattendance/widgets/emptyText.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -84,9 +85,9 @@ class _departmentScreenState extends State<departmentScreen> {
                     }),
                     itemCount: dataList.length);
               } else
-                return Container();
+                return emptyText();
             } else
-              return Container();
+              return emptyText();
           } else
             return loading();
         }),

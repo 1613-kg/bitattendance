@@ -16,7 +16,7 @@ class myProfileInfo extends StatelessWidget {
       leading: Icon(icon),
       title: Text(
         title,
-        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+        style: TextStyle(fontSize: 15),
       ),
     );
   }

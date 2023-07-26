@@ -2,6 +2,7 @@ import 'package:bitattendance/model/batchesData.dart';
 import 'package:bitattendance/model/departmentData.dart';
 import 'package:bitattendance/widgets/addBatch.dart';
 import 'package:bitattendance/widgets/batchListTile.dart';
+import 'package:bitattendance/widgets/emptyText.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -96,17 +97,17 @@ class _bathcesScreenState extends State<bathcesScreen> {
                                       sections:
                                           data2['sections'].cast<String>()));
                             } else
-                              return Container();
+                              return emptyText();
                           } else
-                            return loading();
+                            return emptyText();
                         }));
                     // int reverseIndex = dataList.length - index - 1;
                   },
                 );
               } else
-                return Container();
+                return emptyText();
             } else
-              return Container();
+              return emptyText();
           } else
             return loading();
         }),

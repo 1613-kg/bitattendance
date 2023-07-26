@@ -26,52 +26,47 @@ class _addSection extends State<addSection> {
       child: SingleChildScrollView(
         child: (isLoading)
             ? loading()
-            : Card(
-                //elevation: 5,
-                // child: Container(
-                //     padding: EdgeInsets.all(10),
-                //     child:
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFormField(
-                        onChanged: (val) {
-                          setState(() {
-                            name = val;
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty)
-                            return "Field cannot be empty";
-                          else
-                            return null;
-                        },
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                            hintText: "Enter section name",
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
-                                    width: 2))),
-                      ),
+            : Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      onChanged: (val) {
+                        setState(() {
+                          name = val;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty)
+                          return "Field cannot be empty";
+                        else
+                          return null;
+                      },
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                          hintText: "Enter section name",
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: const Color.fromRGBO(255, 255, 255, 1),
+                                  width: 2))),
+                    ),
 
-                      SizedBox(
-                        height: 25,
-                      ),
-                      //(widget.data.id == null)
+                    SizedBox(
+                      height: 25,
+                    ),
+                    //(widget.data.id == null)
 
-                      ElevatedButton(
-                          onPressed: () {
-                            _addSectionData();
-                          },
-                          child: Text("Upload")),
-                    ],
-                  ),
+                    ElevatedButton(
+                        onPressed: () {
+                          _addSectionData();
+                        },
+                        child: Text("Save")),
+                  ],
                 ),
               ),
+
         //),
       ),
     );
@@ -87,7 +82,7 @@ class _addSection extends State<addSection> {
               SectionsData(id: '', name: name, students: []), widget.batchId)
           .whenComplete(() => isLoading = false);
       Navigator.pop(context);
-      showSnackbar(context, Colors.green, "Data Uploaded Successfully");
+      showSnackbar(context, Colors.green, "Data saved Successfully");
     }
   }
 }

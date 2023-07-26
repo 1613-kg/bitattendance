@@ -19,9 +19,15 @@ class settingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "My Settings",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+          "My settings",
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        centerTitle: true,
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
       ),
       body: SafeArea(
         child: Card(
@@ -39,7 +45,7 @@ class settingsScreen extends StatelessWidget {
                     child: mySettingsList(
                         icon: Icons.person, title: "My Profile")),
                 Divider(
-                  thickness: 2,
+                  thickness: 1,
                   indent: 15,
                   endIndent: 15,
                   color: Colors.black,
@@ -57,7 +63,7 @@ class settingsScreen extends StatelessWidget {
                     child: mySettingsList(
                         icon: Icons.info_outline, title: "About us")),
                 Divider(
-                  thickness: 2,
+                  thickness: 1,
                   indent: 15,
                   endIndent: 15,
                   color: Colors.black,
@@ -75,7 +81,7 @@ class settingsScreen extends StatelessWidget {
                     child: mySettingsList(
                         icon: Icons.notes, title: "Terms & Conditions")),
                 Divider(
-                  thickness: 2,
+                  thickness: 1,
                   indent: 15,
                   endIndent: 15,
                   color: Colors.black,
@@ -129,7 +135,7 @@ class settingsScreen extends StatelessWidget {
                       icon: Icons.delete_rounded, title: "Delete account"),
                 ),
                 Divider(
-                  thickness: 2,
+                  thickness: 1,
                   indent: 15,
                   endIndent: 15,
                   color: Colors.black,
@@ -180,7 +186,7 @@ class settingsScreen extends StatelessWidget {
                     child: mySettingsList(
                         icon: Icons.exit_to_app, title: "Logout")),
                 Divider(
-                  thickness: 2,
+                  thickness: 1,
                   indent: 15,
                   endIndent: 15,
                   color: Colors.black,

@@ -182,4 +182,20 @@ class DatabaseServices extends ChangeNotifier {
       "students": FieldValue.arrayUnion(["${studentDocumentReference.id}"])
     });
   }
+
+  Future updatingStudentsData(StudentsData studentsData) async {
+    await studentCollection.doc(studentsData.id).update({
+      "isPresent": studentsData.isPresent,
+    });
+
+    // DocumentReference studentDocumentReference =
+    //     studentCollection.doc(studentsData.id);
+    // return await studentDocumentReference.update({
+    //   "isPresent": FieldValue.arrayUnion(elements)
+    // });
+  }
+
+  getStudentsData() async {
+    return studentCollection.snapshots();
+  }
 }

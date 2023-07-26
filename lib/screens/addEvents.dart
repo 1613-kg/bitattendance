@@ -27,11 +27,11 @@ class _addEventsState extends State<addEvents> {
   TextEditingController _descController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
   List<String> eventTypeList = [
-    "Category 1",
-    "Category 2",
-    "Category 3",
-    "Category 4",
-    "Category 5"
+    "Technical Fest",
+    "Cultural Fest",
+    "Cavorts",
+    "Seminar",
+    "Tech Events"
   ];
   late String dropdownValue = eventTypeList.first;
   final formKey = GlobalKey<FormState>();
@@ -181,27 +181,29 @@ class _addEventsState extends State<addEvents> {
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(
                                       color: Colors.black26, width: 1)),
-                              child: DropdownButton<String>(
-                                value: dropdownValue,
-                                isExpanded: true,
-                                icon: const Icon(Icons.keyboard_arrow_down),
-                                elevation: 16,
-                                style: TextStyle(
-                                    color: Colors.black87.withOpacity(0.8),
-                                    fontSize: 18),
-                                onChanged: (String? value) {
-                                  setState(() {
-                                    dropdownValue = value!;
-                                  });
-                                },
-                                items: eventTypeList
-                                    .map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: dropdownValue,
+                                  isExpanded: true,
+                                  icon: const Icon(Icons.keyboard_arrow_down),
+                                  elevation: 16,
+                                  style: TextStyle(
+                                      color: Colors.black87.withOpacity(0.8),
+                                      fontSize: 18),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      dropdownValue = value!;
+                                    });
+                                  },
+                                  items: eventTypeList
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
                               ),
                             ),
                           ],
@@ -235,6 +237,9 @@ class _addEventsState extends State<addEvents> {
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold),
                         ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         GridView.builder(
                           itemCount: _image.length + 1,
                           physics: NeverScrollableScrollPhysics(),
@@ -244,20 +249,13 @@ class _addEventsState extends State<addEvents> {
                                   crossAxisCount: 3),
                           itemBuilder: ((context, index) {
                             return (index == 0)
-                                ? Center(
-                                    child: Container(
-                                      height: 90,
-                                      width: 90,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border: Border.all(
-                                              color: Colors.black38, width: 1)),
-                                      child: IconButton(
-                                          onPressed: () {
-                                            showDialogOpt(context);
-                                          },
-                                          icon: Icon(Icons.add)),
+                                ? IconButton(
+                                    onPressed: () {
+                                      showDialogOpt(context);
+                                    },
+                                    icon: Icon(
+                                      Icons.add,
+                                      size: 30,
                                     ),
                                   )
                                 : Stack(
@@ -281,7 +279,11 @@ class _addEventsState extends State<addEvents> {
                                           child: IconButton(
                                               onPressed: () {
                                                 setState(() {
-                                                  //_image.removeWhere((element) => )
+                                                  showSnackbar(
+                                                      context,
+                                                      Colors.red,
+                                                      "Removed image at ${index}");
+                                                  _image.removeAt(index - 1);
                                                 });
                                               },
                                               icon: InkWell(
@@ -305,7 +307,7 @@ class _addEventsState extends State<addEvents> {
                                 onPressed: () {
                                   _addEventData();
                                 },
-                                child: Text("Upload"))),
+                                child: Text("Save"))),
                       ],
                     ),
                   ),

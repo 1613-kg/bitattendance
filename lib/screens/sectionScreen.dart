@@ -4,6 +4,7 @@ import 'package:bitattendance/model/sectionsData.dart';
 import 'package:bitattendance/widgets/addBatch.dart';
 import 'package:bitattendance/widgets/addSection.dart';
 import 'package:bitattendance/widgets/batchListTile.dart';
+import 'package:bitattendance/widgets/emptyText.dart';
 import 'package:bitattendance/widgets/sectionListTile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -99,17 +100,17 @@ class _sectionScreen extends State<sectionScreen> {
                                       students:
                                           data2['students'].cast<String>()));
                             } else
-                              return Container();
+                              return emptyText();
                           } else
-                            return loading();
+                            return emptyText();
                         }));
                     // int reverseIndex = dataList.length - index - 1;
                   },
                 );
               } else
-                return Container();
+                return emptyText();
             } else
-              return Container();
+              return emptyText();
           } else
             return loading();
         }),
