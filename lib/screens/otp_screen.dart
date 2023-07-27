@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
+import '../services/loginData.dart';
+
 class otpScreen extends StatefulWidget {
   String verificationId;
   otpScreen({super.key, required this.verificationId});
@@ -23,11 +25,11 @@ class _otpScreenState extends State<otpScreen> {
     final isLoading =
         Provider.of<AuthProvider>(context, listen: true).isLoading;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: (isLoading)
-              ? loading()
-              : Center(
+      body: (isLoading)
+          ? loading()
+          : SingleChildScrollView(
+              child: SafeArea(
+                child: Center(
                   child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: Column(
@@ -124,8 +126,8 @@ class _otpScreenState extends State<otpScreen> {
                     ),
                   ),
                 ),
-        ),
-      ),
+              ),
+            ),
     );
   }
 
@@ -138,7 +140,9 @@ class _otpScreenState extends State<otpScreen> {
         onSuccess: () {
           DatabaseServices(uid: FirebaseAuth.instance.currentUser!.uid)
               .checkExistingUser()
-              .then((value) {
+              .then((value) async {
+            await LoginData.saveUserLoggedInStatus(true);
+
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(

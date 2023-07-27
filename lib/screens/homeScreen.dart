@@ -1,3 +1,4 @@
+import 'package:bitattendance/screens/blog.dart';
 import 'package:bitattendance/screens/departmentScreen.dart';
 import 'package:bitattendance/screens/eventScreen.dart';
 import 'package:bitattendance/screens/settingsScreen.dart';
@@ -24,7 +25,7 @@ class _homeScreenState extends State<homeScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.calendar_month, size: 25), label: 'Event'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.device_unknown, size: 25), label: 'Dummy'),
+              icon: Icon(Icons.public, size: 25), label: 'Blog'),
           BottomNavigationBarItem(
               icon: Icon(Icons.settings, size: 25), label: 'My Settings'),
         ],
@@ -45,7 +46,7 @@ class _homeScreenState extends State<homeScreen> {
   var pageList = [
     departmentScreen(),
     eventScreen(),
-    Text("Dummy"),
+    blog(),
     settingsScreen(),
   ];
 }

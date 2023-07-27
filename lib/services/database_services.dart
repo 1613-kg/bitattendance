@@ -1,4 +1,5 @@
 import 'package:bitattendance/model/batchesData.dart';
+import 'package:bitattendance/model/blogData.dart';
 import 'package:bitattendance/model/departmentData.dart';
 import 'package:bitattendance/model/eventData.dart';
 import 'package:bitattendance/model/sectionsData.dart';
@@ -30,6 +31,9 @@ class DatabaseServices extends ChangeNotifier {
   final CollectionReference studentCollection =
       FirebaseFirestore.instance.collection("students");
 
+  final CollectionReference blogCollection =
+      FirebaseFirestore.instance.collection("blog");
+
   Future<bool> checkExistingUser() async {
     DocumentSnapshot snapshot = await userCollection.doc(uid).get();
     if (snapshot.exists)
@@ -49,6 +53,12 @@ class DatabaseServices extends ChangeNotifier {
       "uid": uid,
       "department": department,
     });
+  }
+
+  Future gettingUserIdData(String userId) async {
+    QuerySnapshot snapshot =
+        await userCollection.where("uid", isEqualTo: userId).get();
+    return snapshot;
   }
 
   getUserData() async {
@@ -197,5 +207,38 @@ class DatabaseServices extends ChangeNotifier {
 
   getStudentsData() async {
     return studentCollection.snapshots();
+  }
+
+  Future savingBlogData(BlogData data) async {
+    DocumentReference blogDocumentReference = await blogCollection.add({
+      "title": data.title,
+      "blogId": '',
+      "label": data.label,
+      "date": data.date,
+      "images": data.images,
+      "description": data.description,
+      "addedBy": uid,
+    });
+    await blogDocumentReference.update({
+      "blogId": blogDocumentReference.id,
+    });
+  }
+
+  Future updatingBlogData(BlogData data) async {
+    await blogCollection.doc(data.blogId).update({
+      "title": data.title,
+      "label": data.label,
+      "date": data.date,
+      "description": data.description,
+      "images": data.images
+    });
+  }
+
+  getBlogData() async {
+    return blogCollection.snapshots();
+  }
+
+  Future deletingBlogData(BlogData data) async {
+    await blogCollection.doc(data.blogId).delete();
   }
 }

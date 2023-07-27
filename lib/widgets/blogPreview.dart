@@ -1,16 +1,39 @@
-import 'package:bitattendance/constants.dart';
-import 'package:bitattendance/model/eventData.dart';
-import 'package:bitattendance/screens/addEvents.dart';
-import 'package:bitattendance/screens/eventDetailsScreen.dart';
-import 'package:bitattendance/screens/updateEventScreen.dart';
-import 'package:bitattendance/services/database_services.dart';
+import 'package:bitattendance/model/blogData.dart';
+import 'package:bitattendance/screens/blogDetails.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
-class eventPreview extends StatelessWidget {
-  EventData eventData;
+import '../constants.dart';
+import '../services/database_services.dart';
 
-  eventPreview({super.key, required this.eventData});
+class blogPreview extends StatefulWidget {
+  BlogData blogData;
+  blogPreview({super.key, required this.blogData});
+
+  @override
+  State<blogPreview> createState() => _blogPreviewState();
+}
+
+class _blogPreviewState extends State<blogPreview> {
+  String userName = "";
+  getUser(String id) async {
+    QuerySnapshot snapshot =
+        await DatabaseServices(uid: FirebaseAuth.instance.currentUser!.uid)
+            .gettingUserIdData(id);
+
+    setState(() {
+      userName = snapshot.docs[0]['firstName'];
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUser(widget.blogData.addedBy);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +50,12 @@ class eventPreview extends StatelessWidget {
             items: [
               PopupMenuItem<int>(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => updateEventScreen(
-                                eventData: eventData,
-                              )));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => updateEventScreen(
+                  //               eventData: eventData,
+                  //             )));
                 },
                 value: 0,
                 child: Text('Update'),
@@ -41,10 +64,10 @@ class eventPreview extends StatelessWidget {
                 onTap: () async {
                   await DatabaseServices(
                           uid: FirebaseAuth.instance.currentUser!.uid)
-                      .deletingEventData(eventData)
+                      .deletingBlogData(widget.blogData)
                       .whenComplete(() {
                     showSnackbar(
-                        context, Colors.red, "Event deleted successfully");
+                        context, Colors.red, "Blog deleted successfully");
                   });
                 },
                 value: 1,
@@ -56,8 +79,8 @@ class eventPreview extends StatelessWidget {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    eventDetailsScreen(eventData: eventData)));
+                builder: (context) => blogDetails(
+                    blogData: widget.blogData, userName: userName)));
       },
       child: Container(
         width: double.infinity,
@@ -65,7 +88,7 @@ class eventPreview extends StatelessWidget {
         child: Card(
           child: Stack(children: [
             Image.network(
-              eventData.images[0],
+              widget.blogData.images[0],
               fit: BoxFit.cover,
               width: double.infinity,
               height: 235,
@@ -74,7 +97,7 @@ class eventPreview extends StatelessWidget {
               bottom: 50,
               left: 10,
               child: Text(
-                "Name: ${eventData.name}",
+                "Title: ${widget.blogData.title}",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
               ),
             ),
@@ -82,7 +105,7 @@ class eventPreview extends StatelessWidget {
               bottom: 10,
               left: 10,
               child: Text(
-                "Venue: ${eventData.location}",
+                "Label: ${widget.blogData.label}",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
               ),
             ),
@@ -90,7 +113,7 @@ class eventPreview extends StatelessWidget {
               bottom: 50,
               right: 10,
               child: Text(
-                "Time: ${eventData.startTime}",
+                "Date: ${DateFormat.yMd().format(widget.blogData.date)}",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
               ),
             ),
@@ -98,7 +121,7 @@ class eventPreview extends StatelessWidget {
               bottom: 10,
               right: 10,
               child: Text(
-                "Date: ${eventData.startDate}",
+                "Author: ${userName}",
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
               ),
             ),

@@ -1,28 +1,28 @@
-import 'package:bitattendance/model/eventData.dart';
-import 'package:bitattendance/screens/addEvents.dart';
+import 'package:bitattendance/model/blogData.dart';
+import 'package:bitattendance/screens/addBlog.dart';
+import 'package:bitattendance/widgets/blogPreview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../services/database_services.dart';
-import '../widgets/eventPreview.dart';
 import '../widgets/loading.dart';
 
-class eventScreen extends StatefulWidget {
-  const eventScreen({super.key});
+class blog extends StatefulWidget {
+  const blog({super.key});
 
   @override
-  State<eventScreen> createState() => _eventScreenState();
+  State<blog> createState() => _blogState();
 }
 
-class _eventScreenState extends State<eventScreen> {
-  Stream? eventData;
+class _blogState extends State<blog> {
+  Stream? blog;
 
-  getAllEventData() async {
+  getAllBlogData() async {
     await DatabaseServices(
       uid: FirebaseAuth.instance.currentUser!.uid,
-    ).getEventData().then((snapshots) {
+    ).getBlogData().then((snapshots) {
       setState(() {
-        eventData = snapshots;
+        blog = snapshots;
       });
     });
   }
@@ -31,7 +31,7 @@ class _eventScreenState extends State<eventScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    getAllEventData();
+    getAllBlogData();
   }
 
   @override
@@ -39,7 +39,7 @@ class _eventScreenState extends State<eventScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Events",
+          "Blogs",
           style: TextStyle(
             fontSize: 20,
             color: Colors.white,
@@ -52,14 +52,14 @@ class _eventScreenState extends State<eventScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (context) => addEvents()));
+              context, MaterialPageRoute(builder: (context) => addBlog()));
         },
         child: Icon(Icons.add),
       ),
       body: Container(
         margin: EdgeInsets.all(10),
         child: StreamBuilder(
-          stream: eventData,
+          stream: blog,
           builder: ((context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               var dataList = snapshot.data.docs;
@@ -69,20 +69,15 @@ class _eventScreenState extends State<eventScreen> {
                     itemCount: dataList.length,
                     itemBuilder: ((context, index) {
                       final data = dataList[index].data();
-                      return eventPreview(
-                        eventData: EventData(
-                            eventId: data['eventId'],
-                            name: data['eventName'],
-                            description: data['description'],
-                            type: data['eventType'],
-                            location: data['eventVenue'],
-                            endDate: data['endDate'],
-                            startDate: data['startDate'],
-                            images: data['images'].cast<String>(),
-                            startTime: data['startTime'],
-                            endTime: data['endTime'],
-                            addedBy: data['addedBy']),
-                      );
+                      return blogPreview(
+                          blogData: BlogData(
+                              addedBy: data['addedBy'],
+                              title: data['title'],
+                              label: data['label'],
+                              date: data['date'].toDate(),
+                              description: data['description'],
+                              blogId: data['blogId'],
+                              images: data['images'].cast<String>()));
                     }));
               } else
                 return Container();

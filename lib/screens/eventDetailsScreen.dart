@@ -4,18 +4,13 @@ import 'package:flutter/material.dart';
 
 import '../widgets/imageSlider.dart';
 
-class eventDetailsScreen extends StatefulWidget {
+class eventDetailsScreen extends StatelessWidget {
   EventData eventData;
   eventDetailsScreen({super.key, required this.eventData});
 
   @override
-  State<eventDetailsScreen> createState() => _eventDetailsScreenState();
-}
-
-class _eventDetailsScreenState extends State<eventDetailsScreen> {
-  @override
   Widget build(BuildContext context) {
-    final data = widget.eventData;
+    final data = eventData;
     return Scaffold(
       appBar: AppBar(
         title: Text(
