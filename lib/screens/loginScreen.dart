@@ -45,7 +45,7 @@ class _loginScreenState extends State<loginScreen> {
                         width: 250,
                         padding: EdgeInsets.all(10),
                         child: Image.asset(
-                          "assets/images/login.png",
+                          "assets/images/login1.jpg",
                         ),
                       ),
                       Text(
@@ -79,25 +79,25 @@ class _loginScreenState extends State<loginScreen> {
                             borderRadius: BorderRadius.all(Radius.circular(10)),
                             borderSide: BorderSide(color: Colors.black45),
                           ),
-                          prefixIcon: Container(
-                            padding: EdgeInsets.all(10),
-                            child: InkWell(
-                              onTap: () {
-                                showCountryPicker(
-                                    context: context,
-                                    onSelect: (value) {
-                                      setState(() {
-                                        selectedCountry = value;
-                                      });
-                                    });
-                              },
-                              child: Text(
-                                "${selectedCountry.flagEmoji} +${selectedCountry.phoneCode}",
-                                style: TextStyle(
-                                    fontSize: 19, fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
+                          // prefixIcon: Container(
+                          //   padding: EdgeInsets.all(10),
+                          //   child: InkWell(
+                          //     onTap: () {
+                          //       showCountryPicker(
+                          //           context: context,
+                          //           onSelect: (value) {
+                          //             setState(() {
+                          //               selectedCountry = value;
+                          //             });
+                          //           });
+                          //     },
+                          //     child: Text(
+                          //       "${selectedCountry.flagEmoji} +${selectedCountry.phoneCode}",
+                          //       style: TextStyle(
+                          //           fontSize: 19, fontWeight: FontWeight.bold),
+                          //     ),
+                          //   ),
+                          // ),
                         ),
                       ),
                       SizedBox(
@@ -111,9 +111,7 @@ class _loginScreenState extends State<loginScreen> {
                               final ap = Provider.of<AuthProvider>(context,
                                   listen: false);
                               String phoneNumber = _phoneController.text.trim();
-                              ap.signInWithPhone(
-                                  "+${selectedCountry.phoneCode}$phoneNumber",
-                                  context);
+                              ap.signInWithPhone("+${91}$phoneNumber", context);
                             },
                             child: Text(
                               "Login",

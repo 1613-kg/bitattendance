@@ -32,19 +32,22 @@ class _sliderScreenState extends State<sliderScreen> {
       ),
       listCustomTabs: [
         sliderWidget(
-            title: "Login",
-            description:
-                "Select your country code,then enter your phone number and click on login button",
-            imagePath: "assets/images/login.png"),
+            title: "Attendance",
+            description: "Take attendance just by a click",
+            imagePath: "assets/images/attendance.jpg"),
         sliderWidget(
-            title: "Verification",
+            title: "Events",
             description:
-                "Enter the verifiation code recieved on the entered phone number then click on the verify button",
-            imagePath: "assets/images/otp.jpg"),
+                "You can add your events and can get all events around you",
+            imagePath: "assets/images/events.jpg"),
+        sliderWidget(
+            title: "Blogs",
+            description: "You can add your blogs and can see others blogs",
+            imagePath: "assets/images/blog.jpg"),
         sliderWidget(
             title: "Congratulations",
             description: "You are ready to explore the application!",
-            imagePath: "assets/images/success.png")
+            imagePath: "assets/images/cong.jpg")
       ],
       scrollPhysics: BouncingScrollPhysics(),
       onDonePress: () => Navigator.pushReplacement(

@@ -42,6 +42,8 @@ class AuthProvider extends ChangeNotifier {
             await _firebaseAuth.signInWithCredential(phoneAuthCredential);
           },
           verificationFailed: (error) {
+            _isLoading = false;
+            notifyListeners();
             throw Exception(error.message);
           },
           codeSent: ((verificationId, forceResendingToken) {

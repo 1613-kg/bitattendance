@@ -22,11 +22,9 @@ class successScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ClipRRect(
+            ClipOval(
               child: Image.asset(
-                "assets/images/success.png",
-                height: 150,
-                width: 150,
+                "assets/images/success.jpg",
               ),
             ),
             SizedBox(
