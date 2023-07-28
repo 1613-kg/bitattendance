@@ -7,7 +7,7 @@ import 'package:bitattendance/model/studentsData.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 
 class DatabaseServices extends ChangeNotifier {
@@ -82,6 +82,7 @@ class DatabaseServices extends ChangeNotifier {
       "description": data.description,
       "images": data.images,
       "addedBy": uid,
+      "timeStamp": data.timeStamp,
     });
     await eventDocumentReference.update({
       "eventId": eventDocumentReference.id,
@@ -101,6 +102,7 @@ class DatabaseServices extends ChangeNotifier {
       "description": eventData.description,
       "images": eventData.images,
       "addedBy": uid,
+      "timeStamp": eventData.timeStamp,
     });
   }
 

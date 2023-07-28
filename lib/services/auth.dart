@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:bitattendance/constants.dart';
-import 'package:bitattendance/model/userData.dart';
+
 import 'package:bitattendance/screens/otp_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +45,8 @@ class AuthProvider extends ChangeNotifier {
             throw Exception(error.message);
           },
           codeSent: ((verificationId, forceResendingToken) {
+            _isLoading = false;
+            notifyListeners();
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -53,8 +55,6 @@ class AuthProvider extends ChangeNotifier {
                         )));
           }),
           codeAutoRetrievalTimeout: (verificationID) {});
-      _isLoading = false;
-      notifyListeners();
     } on FirebaseAuthException catch (e) {
       showSnackbar(context, Colors.red, e.message);
     }
@@ -94,11 +94,32 @@ class AuthProvider extends ChangeNotifier {
     return imageDwnUrl;
   }
 
-  Future<List<String>> uploadEventPictures(List<File> images) async {
+  Future<List<String>> uploadEventPictures(
+      List<File> images, DateTime timeStamp) async {
     Reference ref = FirebaseStorage.instance
         .ref()
         .child('eventImages')
-        .child(FirebaseAuth.instance.currentUser!.uid);
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(timeStamp.toString());
+
+    List<String> _imagesUrl = [];
+    for (int i = 0; i < images.length; i++) {
+      UploadTask uploadTask = ref.child(i.toString()).putFile(images[i]);
+      TaskSnapshot snapshot = await uploadTask;
+      String imageDwnUrl = await snapshot.ref.getDownloadURL();
+      _imagesUrl.add(imageDwnUrl);
+    }
+
+    return _imagesUrl;
+  }
+
+  Future<List<String>> uploadBlogPictures(
+      List<File> images, DateTime timeStamp) async {
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child('blogImages')
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(timeStamp.toString());
 
     List<String> _imagesUrl = [];
     for (int i = 0; i < images.length; i++) {
@@ -123,6 +144,30 @@ class AuthProvider extends ChangeNotifier {
         .ref()
         .child('profilePics')
         .child(FirebaseAuth.instance.currentUser!.uid);
+
+    await ref.delete();
+  }
+
+  Future<void> deleteEventPic(DateTime timeStamp) async {
+    // Reference photoRef = await FirebaseStorage.instance.refFromURL(imageUrl);
+    // await photoRef.delete();
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child('eventImages')
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(timeStamp.toString());
+
+    await ref.delete();
+  }
+
+  Future<void> deleteBlogPic(DateTime timeStamp) async {
+    // Reference photoRef = await FirebaseStorage.instance.refFromURL(imageUrl);
+    // await photoRef.delete();
+    Reference ref = FirebaseStorage.instance
+        .ref()
+        .child('blogImages')
+        .child(FirebaseAuth.instance.currentUser!.uid)
+        .child(timeStamp.toString());
 
     await ref.delete();
   }

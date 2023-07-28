@@ -23,10 +23,10 @@ class _addDepartmentState extends State<addDepartment> {
     return Padding(
       padding: EdgeInsets.fromLTRB(
           20, 20, 20, MediaQuery.of(context).viewInsets.bottom + 20),
-      child: SingleChildScrollView(
-        child: (isLoading)
-            ? loading()
-            : Form(
+      child: (isLoading)
+          ? loading()
+          : SingleChildScrollView(
+              child: Form(
                 key: formKey,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -88,8 +88,8 @@ class _addDepartmentState extends State<addDepartment> {
                 ),
               ),
 
-        //),
-      ),
+              //),
+            ),
     );
   }
 

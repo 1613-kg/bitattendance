@@ -25,83 +25,77 @@ class _addStudentsState extends State<addStudents> {
     return Padding(
       padding: EdgeInsets.fromLTRB(
           20, 20, 20, MediaQuery.of(context).viewInsets.bottom + 20),
-      child: SingleChildScrollView(
-        child: (isLoading)
-            ? loading()
-            : Card(
-                //elevation: 5,
-                // child: Container(
-                //     padding: EdgeInsets.all(10),
-                //     child:
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextFormField(
-                        onChanged: (val) {
-                          setState(() {
-                            name = val;
-                          });
-                        },
-                        validator: (value) {
-                          if (value!.isEmpty)
-                            return "Field cannot be empty";
-                          else
-                            return null;
-                        },
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                            hintText: "Enter student name",
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
-                                    width: 2))),
-                      ),
+      child: (isLoading)
+          ? loading()
+          : SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      onChanged: (val) {
+                        setState(() {
+                          name = val;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty)
+                          return "Field cannot be empty";
+                        else
+                          return null;
+                      },
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(8),
+                          hintText: "Enter student name",
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: const Color.fromRGBO(255, 255, 255, 1),
+                                  width: 2))),
+                    ),
 
-                      SizedBox(
-                        height: 15,
-                      ),
+                    SizedBox(
+                      height: 15,
+                    ),
 
-                      TextFormField(
-                        onChanged: (val) {
-                          setState(() {
-                            rollNo = val;
-                          });
+                    TextFormField(
+                      onChanged: (val) {
+                        setState(() {
+                          rollNo = val;
+                        });
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty)
+                          return "Field cannot be empty";
+                        else
+                          return null;
+                      },
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                          hintText: "Enter Roll Number",
+                          border: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: const Color.fromRGBO(255, 255, 255, 1),
+                                  width: 2))),
+                    ),
+
+                    SizedBox(
+                      height: 25,
+                    ),
+                    //(widget.data.id == null)
+
+                    ElevatedButton(
+                        onPressed: () {
+                          _addStudentsData();
                         },
-                        validator: (value) {
-                          if (value!.isEmpty)
-                            return "Field cannot be empty";
-                          else
-                            return null;
-                        },
-                        textInputAction: TextInputAction.next,
-                        decoration: InputDecoration(
-                            hintText: "Enter Roll Number",
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color:
-                                        const Color.fromRGBO(255, 255, 255, 1),
-                                    width: 2))),
-                      ),
-
-                      SizedBox(
-                        height: 25,
-                      ),
-                      //(widget.data.id == null)
-
-                      ElevatedButton(
-                          onPressed: () {
-                            _addStudentsData();
-                          },
-                          child: Text("Save")),
-                    ],
-                  ),
+                        child: Text("Save")),
+                  ],
                 ),
               ),
-        //),
-      ),
+
+              //),
+            ),
     );
   }
 

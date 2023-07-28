@@ -10,8 +10,10 @@ class EventData {
   String description;
   List<String> images;
   String addedBy;
+  DateTime timeStamp;
 
   EventData({
+    required this.timeStamp,
     required this.eventId,
     required this.name,
     required this.description,

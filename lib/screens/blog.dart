@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../services/database_services.dart';
+import '../widgets/emptyText.dart';
 import '../widgets/loading.dart';
 
 class blog extends StatefulWidget {
@@ -80,7 +81,7 @@ class _blogState extends State<blog> {
                               images: data['images'].cast<String>()));
                     }));
               } else
-                return Container();
+                return emptyText();
               // } else
               //   return Container();
             } else

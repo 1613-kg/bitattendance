@@ -24,7 +24,7 @@ class _sliderScreenState extends State<sliderScreen> {
       ),
       renderDoneBtn: Text(
         "Done",
-        style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
       renderPrevBtn: Text(
         "Prev",

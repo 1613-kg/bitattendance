@@ -36,7 +36,7 @@ class _addBlogState extends State<addBlog> {
             "Create",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 25,
+              fontSize: 20,
               color: Colors.white,
               fontWeight: FontWeight.bold,
             ),
@@ -45,10 +45,10 @@ class _addBlogState extends State<addBlog> {
           centerTitle: true,
           backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
         ),
-        body: SingleChildScrollView(
-          child: (isLoading)
-              ? loading()
-              : Container(
+        body: (isLoading)
+            ? loading()
+            : SingleChildScrollView(
+                child: Container(
                   margin: EdgeInsets.all(20),
                   child: Form(
                     key: formKey,
@@ -198,7 +198,7 @@ class _addBlogState extends State<addBlog> {
                     ),
                   ),
                 ),
-        ));
+              ));
   }
 
   Widget textField({
@@ -335,7 +335,8 @@ class _addBlogState extends State<addBlog> {
           isLoading = false;
         });
       } else {
-        ap.uploadEventPictures(_image).then((value) {
+        DateTime timeStamp = DateTime.now();
+        ap.uploadBlogPictures(_image, timeStamp).then((value) {
           setState(() {
             _imageUrl = value;
           });
@@ -344,7 +345,7 @@ class _addBlogState extends State<addBlog> {
           )
               .savingBlogData(BlogData(
                   blogId: '',
-                  date: DateTime.now(),
+                  date: timeStamp,
                   description: _descController.text.trim(),
                   label: _labelController.text.trim(),
                   title: _nameController.text.trim(),

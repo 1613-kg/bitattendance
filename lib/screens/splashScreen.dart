@@ -50,7 +50,7 @@ class _splashScreenState extends State<splashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            ClipRRect(
+            ClipOval(
               child: Image.asset("assets/images/logo.jpg"),
             ),
             SizedBox(

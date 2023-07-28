@@ -50,9 +50,6 @@ class settingsScreen extends StatelessWidget {
                   endIndent: 15,
                   color: Colors.black,
                 ),
-                SizedBox(
-                  height: 10,
-                ),
                 InkWell(
                     onTap: () {
                       Navigator.push(
@@ -68,9 +65,6 @@ class settingsScreen extends StatelessWidget {
                   endIndent: 15,
                   color: Colors.black,
                 ),
-                SizedBox(
-                  height: 10,
-                ),
                 InkWell(
                     onTap: () {
                       Navigator.push(
@@ -85,9 +79,6 @@ class settingsScreen extends StatelessWidget {
                   indent: 15,
                   endIndent: 15,
                   color: Colors.black,
-                ),
-                SizedBox(
-                  height: 10,
                 ),
                 InkWell(
                   onTap: () {
@@ -139,9 +130,6 @@ class settingsScreen extends StatelessWidget {
                   indent: 15,
                   endIndent: 15,
                   color: Colors.black,
-                ),
-                SizedBox(
-                  height: 10,
                 ),
                 InkWell(
                     onTap: () {

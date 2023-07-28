@@ -1,53 +1,52 @@
 import 'dart:io';
 
-import 'package:bitattendance/model/eventData.dart';
-import 'package:bitattendance/services/auth.dart';
-import 'package:bitattendance/widgets/dateWidget.dart';
-import 'package:bitattendance/widgets/loading.dart';
-import 'package:bitattendance/widgets/timeWidget.dart';
+import 'package:bitattendance/model/blogData.dart';
+import 'package:bitattendance/screens/blog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../constants.dart';
+import '../services/auth.dart';
 import '../services/database_services.dart';
+import '../widgets/loading.dart';
 
-class addEvents extends StatefulWidget {
-  const addEvents({super.key});
+class updateBlogData extends StatefulWidget {
+  BlogData blogData;
+  updateBlogData({super.key, required this.blogData});
 
   @override
-  State<addEvents> createState() => _addEventsState();
+  State<updateBlogData> createState() => _updateBlogDataState();
 }
 
-class _addEventsState extends State<addEvents> {
+class _updateBlogDataState extends State<updateBlogData> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _descController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
-  List<String> eventTypeList = [
-    "Technical Fest",
-    "Cultural Fest",
-    "Cavorts",
-    "Seminar",
-    "Tech Events"
-  ];
-  late String dropdownValue = eventTypeList.first;
-  final formKey = GlobalKey<FormState>();
-  DateTime startDate = DateTime.now();
-  DateTime endDate = DateTime.now();
-  TimeOfDay startTime = TimeOfDay.now();
-  TimeOfDay endTime = TimeOfDay.now();
+  TextEditingController _labelController = TextEditingController();
   List<File> _image = [];
   List<String> _imageUrl = [];
   bool isLoading = false;
+  final formKey = GlobalKey<FormState>();
+  DateTime startDate = DateTime.now();
   @override
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _nameController.text = widget.blogData.title;
+
+    _descController.text = widget.blogData.description;
+    _labelController.text = widget.blogData.label;
+    _imageUrl = widget.blogData.images;
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            "Create",
+            "Update",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20,
@@ -75,7 +74,7 @@ class _addEventsState extends State<addEvents> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Event Name",
+                              "Blog Name",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
@@ -95,7 +94,7 @@ class _addEventsState extends State<addEvents> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Event Description",
+                              "Blog Description",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
@@ -111,53 +110,6 @@ class _addEventsState extends State<addEvents> {
                         SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  datepickerStart();
-                                },
-                                child: dateWidget(
-                                  title: "Start Date",
-                                  date: startDate,
-                                )),
-                            InkWell(
-                                onTap: () {
-                                  timepickerStart();
-                                },
-                                child: timeWidget(
-                                  title: "Start Time",
-                                  time: startTime,
-                                )),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  datepickerEnd();
-                                },
-                                child: dateWidget(
-                                  title: "End Date",
-                                  date: endDate,
-                                )),
-                            InkWell(
-                                onTap: () {
-                                  timepickerEnd();
-                                },
-                                child: timeWidget(
-                                  title: "End Time",
-                                  time: endTime,
-                                )),
-                          ],
-                        ),
                         SizedBox(
                           height: 20,
                         ),
@@ -166,57 +118,7 @@ class _addEventsState extends State<addEvents> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Text(
-                              "Event Category",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(
-                                      color: Colors.black26, width: 1)),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  value: dropdownValue,
-                                  isExpanded: true,
-                                  icon: const Icon(Icons.keyboard_arrow_down),
-                                  elevation: 16,
-                                  style: TextStyle(
-                                      color: Colors.black87.withOpacity(0.8),
-                                      fontSize: 18),
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      dropdownValue = value!;
-                                    });
-                                  },
-                                  items: eventTypeList
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Address",
+                              "Blog Label",
                               style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
@@ -225,8 +127,8 @@ class _addEventsState extends State<addEvents> {
                             ),
                             textField(
                                 inputType: TextInputType.multiline,
-                                controller: _addressController,
-                                maxLine: 3),
+                                controller: _labelController,
+                                maxLine: 2),
                           ],
                         ),
                         SizedBox(
@@ -275,23 +177,22 @@ class _addEventsState extends State<addEvents> {
                                         ),
                                       ),
                                       Align(
-                                          alignment: Alignment.topRight,
-                                          child: InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                showSnackbar(
-                                                    context,
-                                                    Colors.red,
-                                                    "Removed image at ${index}");
-                                                _image.removeAt(index - 1);
-                                              });
-                                            },
-                                            child: Icon(
-                                              Icons.cancel_outlined,
-                                              size: 35,
-                                              color: Colors.red,
-                                            ),
-                                          )),
+                                        alignment: Alignment.topRight,
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              showSnackbar(context, Colors.red,
+                                                  "Removed image at ${index}");
+                                              _image.removeAt(index - 1);
+                                            });
+                                          },
+                                          child: Icon(
+                                            Icons.cancel_outlined,
+                                            size: 35,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   );
                           }),
@@ -303,9 +204,9 @@ class _addEventsState extends State<addEvents> {
                             width: double.infinity,
                             child: ElevatedButton(
                                 onPressed: () {
-                                  _addEventData();
+                                  _addBlogData();
                                 },
-                                child: Text("Save"))),
+                                child: Text("Update"))),
                       ],
                     ),
                   ),
@@ -352,58 +253,6 @@ class _addEventsState extends State<addEvents> {
             border: InputBorder.none),
       ),
     );
-  }
-
-  void datepickerStart() {
-    showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2023),
-            lastDate: DateTime.now())
-        .then((value) {
-      if (value == null) return;
-      setState(() {
-        startDate = value;
-      });
-    });
-  }
-
-  void datepickerEnd() {
-    showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2023),
-            lastDate: DateTime.now())
-        .then((value) {
-      if (value == null) return;
-      setState(() {
-        endDate = value;
-      });
-    });
-  }
-
-  void timepickerStart() {
-    showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-      if (value == null) return;
-      setState(() {
-        startTime = value;
-      });
-    });
-  }
-
-  void timepickerEnd() {
-    showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-      if (value == null) return;
-      setState(() {
-        endTime = value;
-      });
-    });
   }
 
   void pickImage(BuildContext context) async {
@@ -487,7 +336,7 @@ class _addEventsState extends State<addEvents> {
             ));
   }
 
-  _addEventData() async {
+  _addBlogData() async {
     if (formKey.currentState!.validate()) {
       setState(() {
         isLoading = true;
@@ -500,29 +349,27 @@ class _addEventsState extends State<addEvents> {
         });
       } else {
         DateTime timeStamp = DateTime.now();
-        ap.uploadEventPictures(_image, timeStamp).then((value) {
+        ap.uploadBlogPictures(_image, timeStamp).then((value) {
           setState(() {
             _imageUrl = value;
           });
           DatabaseServices(
             uid: FirebaseAuth.instance.currentUser!.uid,
           )
-              .savingEventData(EventData(
-                  eventId: "",
-                  timeStamp: timeStamp,
-                  name: _nameController.text.trim(),
+              .updatingBlogData(BlogData(
+                  blogId: widget.blogData.blogId,
+                  date: timeStamp,
                   description: _descController.text.trim(),
-                  type: dropdownValue,
-                  location: _addressController.text.trim(),
-                  endDate: DateFormat.yMd().format(endDate),
-                  startDate: DateFormat.yMd().format(startDate),
-                  images: _imageUrl,
-                  startTime: startTime.format(context),
-                  endTime: endTime.format(context),
-                  addedBy: ""))
+                  label: _labelController.text.trim(),
+                  title: _nameController.text.trim(),
+                  addedBy: '',
+                  images: _imageUrl))
               .whenComplete(() => isLoading = false);
-          Navigator.pop(context);
-          showSnackbar(context, Colors.green, "Data Uploaded Successfully");
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => blog()),
+              (route) => false);
+          showSnackbar(context, Colors.green, "Data Updated Successfully");
         });
       }
     }

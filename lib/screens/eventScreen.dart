@@ -1,5 +1,6 @@
 import 'package:bitattendance/model/eventData.dart';
 import 'package:bitattendance/screens/addEvents.dart';
+import 'package:bitattendance/widgets/emptyText.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -71,6 +72,7 @@ class _eventScreenState extends State<eventScreen> {
                       final data = dataList[index].data();
                       return eventPreview(
                         eventData: EventData(
+                            timeStamp: data['timeStamp'].toDate(),
                             eventId: data['eventId'],
                             name: data['eventName'],
                             description: data['description'],
@@ -85,7 +87,7 @@ class _eventScreenState extends State<eventScreen> {
                       );
                     }));
               } else
-                return Container();
+                return emptyText();
               // } else
               //   return Container();
             } else

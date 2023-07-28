@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bitattendance/screens/eventScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
@@ -28,11 +29,11 @@ class _updateEventScreenState extends State<updateEventScreen> {
   TextEditingController _descController = TextEditingController();
   TextEditingController _addressController = TextEditingController();
   List<String> eventTypeList = [
-    "Category 1",
-    "Category 2",
-    "Category 3",
-    "Category 4",
-    "Category 5"
+    "Technical Fest",
+    "Cultural Fest",
+    "Cavorts",
+    "Seminar",
+    "Tech Events"
   ];
   late String dropdownValue = eventTypeList.first;
   final formKey = GlobalKey<FormState>();
@@ -72,10 +73,10 @@ class _updateEventScreenState extends State<updateEventScreen> {
           centerTitle: true,
           backgroundColor: Theme.of(context).primaryColor.withOpacity(0.9),
         ),
-        body: SingleChildScrollView(
-          child: (isLoading)
-              ? loading()
-              : Container(
+        body: (isLoading)
+            ? loading()
+            : SingleChildScrollView(
+                child: Container(
                   margin: EdgeInsets.all(20),
                   child: Form(
                     key: formKey,
@@ -290,21 +291,22 @@ class _updateEventScreenState extends State<updateEventScreen> {
                                         ),
                                       ),
                                       Align(
-                                          alignment: Alignment.topRight,
-                                          child: IconButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  //_image.removeWhere((element) => )
-                                                });
-                                              },
-                                              icon: InkWell(
-                                                onTap: () {},
-                                                child: Icon(
-                                                  Icons.cancel_outlined,
-                                                  size: 35,
-                                                  color: Colors.red,
-                                                ),
-                                              )))
+                                        alignment: Alignment.topRight,
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              showSnackbar(context, Colors.red,
+                                                  "Removed image at ${index}");
+                                              _image.removeAt(index - 1);
+                                            });
+                                          },
+                                          child: Icon(
+                                            Icons.cancel_outlined,
+                                            size: 35,
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                      ),
                                     ],
                                   );
                           }),
@@ -323,7 +325,7 @@ class _updateEventScreenState extends State<updateEventScreen> {
                     ),
                   ),
                 ),
-        ));
+              ));
   }
 
   Widget textField({
@@ -512,7 +514,8 @@ class _updateEventScreenState extends State<updateEventScreen> {
           isLoading = false;
         });
       } else {
-        ap.uploadEventPictures(_image).then((value) {
+        DateTime timeStamp = DateTime.now();
+        ap.uploadEventPictures(_image, timeStamp).then((value) {
           setState(() {
             _imageUrl = value;
           });
@@ -520,7 +523,8 @@ class _updateEventScreenState extends State<updateEventScreen> {
             uid: FirebaseAuth.instance.currentUser!.uid,
           )
               .updatingEventData(EventData(
-                  eventId: "",
+                  eventId: widget.eventData.eventId,
+                  timeStamp: timeStamp,
                   name: _nameController.text.trim(),
                   description: _descController.text.trim(),
                   type: dropdownValue,
@@ -532,7 +536,10 @@ class _updateEventScreenState extends State<updateEventScreen> {
                   endTime: endTime.format(context),
                   addedBy: ""))
               .whenComplete(() => isLoading = false);
-          Navigator.pop(context);
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => eventScreen()),
+              (route) => false);
           showSnackbar(context, Colors.green, "Data Updated Successfully");
         });
       }

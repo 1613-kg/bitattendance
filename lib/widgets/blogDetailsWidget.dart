@@ -9,27 +9,43 @@ class blogDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        height: 50,
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-        decoration:
-            BoxDecoration(border: Border.all(color: Colors.black38, width: 1)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              "$title: ",
-              style: TextStyle(fontSize: 15),
-            ),
-            AutoSizeText(
-              content,
-              softWrap: true,
-              style: TextStyle(fontSize: 10),
-              maxLines: 6,
-              overflow: TextOverflow.ellipsis,
-              //overflowReplacement: Text('Sorry String too long'),
-            ),
-          ],
-        ));
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "$title: ",
+          style: TextStyle(fontSize: 15),
+        ),
+        Container(
+          width: 230,
+          padding: EdgeInsets.all(5),
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            border: Border.all(color: Colors.white30, width: 1),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          // child: SizedBox(
+          //   width: 120.0,
+          //   child: Text(
+          //     content,
+          //     maxLines: 5,
+          //     overflow: TextOverflow.ellipsis,
+          //     softWrap: false,
+          //     style: TextStyle(
+          //         color: Colors.black,
+          //         fontWeight: FontWeight.bold,
+          //         fontSize: 15.0),
+          //   ),
+          // ),
+          child: AutoSizeText(
+            content,
+            //textAlign: TextAlign.center,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            softWrap: true,
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -62,15 +62,6 @@ class _attendanceScreenState extends State<attendanceScreen> {
           ? loading()
           : Column(
               children: [
-                // Container(
-                //   padding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                //   width: double.infinity,
-                //   child: ElevatedButton(
-                //       onPressed: () {
-                //         datepicker();
-                //       },
-                //       child: Text("Change Date")),
-                // ),
                 StreamBuilder(
                   stream: section,
                   builder: ((context, AsyncSnapshot snapshot) {
@@ -180,7 +171,10 @@ class _attendanceScreenState extends State<attendanceScreen> {
                 Container(
                   child: ElevatedButton(
                       onPressed: () {
-                        _updateStudentAttendance();
+                        (_updated.length == 0)
+                            ? showSnackbar(context, Colors.red,
+                                "Add some students to take attendance")
+                            : _updateStudentAttendance();
                       },
                       child: Text("Save attendance")),
                 ),
